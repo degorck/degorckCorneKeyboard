@@ -65,11 +65,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NLCK,                      KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_PMNS,  KC_BSPC,
+       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NLCK,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_P4,    KC_P5,   KC_P6,   KC_PAST,  KC_PPLS, KC_NO,
+      KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PPLS, KC_P4,    KC_P5,   KC_P6,   KC_PAST, KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_P1,    KC_P2,   KC_P3,    KC_P0,   KC_PDOT, KC_PENT,
+      KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PDOT, KC_P1,    KC_P2,   KC_P3,    KC_P0,  KC_PENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LALT, TO(0), KC_SPC,         KC_SPC, TO(3), KC_ALGR
                                       //`--------------------------'  `--------------------------'
