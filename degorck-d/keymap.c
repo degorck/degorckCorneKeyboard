@@ -397,13 +397,15 @@ void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
   switch (biton32(layer_state)) {
     case _RAISE:
-      for (int i = 0; i < 13; i++) {
+      for (int i = 0; i < 6; i++) {
           rgb_matrix_set_color(i, 25, 0, 0);
       }
-      for (int i =15; i < 18; i++) {
+      for (int i =10; i < 13; i++) {
           rgb_matrix_set_color(i, 25, 0, 0);
       }
-      rgb_matrix_set_color(6, 0, 0, 0);
+      for (int i =15; i < 21; i++) {
+          rgb_matrix_set_color(i, 25, 0, 0);
+      }
       break;
 
     case _LOWER:
