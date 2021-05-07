@@ -46,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LCTL, KC_Z,   KC_X,  KC_C,   KC_V,   KC_B,                            KC_N,   KC_M,   KC_COMM, KC_DOT, KC_SLSH, KC_ENT,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                       KC_LGUI, TO(2), KC_SPC,       KC_SPC, MO(1), KC_ALGR
+                                       KC_LGUI, MO(2), KC_SPC,       KC_SPC, MO(1), KC_ALGR
                                   //`--------------------------'  `--------------------------'
 
   ),
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
     RGB_MOD,RGB_HUD,RGB_SAD,RGB_VAD,RGB_SPD,KC_NO,               KC_NO , KC_NO, KC_NO, RGB_RMOD, RGBRST, RESET,
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                            KC_LGUI, KC_TRNS, KC_SPC,      KC_SPC, KC_TRNS, KC_ALGR
+                            KC_LGUI, TO(0), KC_SPC,      KC_SPC, KC_TRNS, KC_ALGR
                               //`--------------------'  `--------------------'
   )
 };
