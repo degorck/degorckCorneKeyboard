@@ -131,10 +131,6 @@ void oled_render_layer_state(void) {
         case _ADJUST:
             oled_write_ln_P(PSTR("Adjust"), false);
             break;
-        default:
-            oled_write_ln_P(PSTR("Dvorak"), false);
-            break;
-
     }
 }
 
