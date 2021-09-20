@@ -12,7 +12,7 @@ enum layers {
   _DVORAK,
   _QWERTY,
   _LOWER,
-  _RAISE,
+  _NUMPAD,
   _ADJUST
 };
 
@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
    ),
 
-  [_RAISE] = LAYOUT(
+  [_NUMPAD] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NLCK,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -125,8 +125,8 @@ void oled_render_layer_state(void) {
         case _LOWER:
             oled_write_ln_P(PSTR("Lower"), false);
             break;
-        case _RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
+        case _NUMPAD:
+            oled_write_ln_P(PSTR("Numpad"), false);
             break;
         case _ADJUST:
             oled_write_ln_P(PSTR("Adjust"), false);
@@ -163,6 +163,18 @@ void oled_render_keylog(void) {
     oled_write(keylog_str, false);
 }
 
+void oled_render_wpm(void) {
+  uint8_t n = get_current_wpm();
+  char wpm_str[4];
+  wpm_str[3] = '\0';
+  wpm_str[2] = '0' + n % 10;
+  wpm_str[1] = '0' + (n /= 10) % 10;
+  wpm_str[0] = '0' + n / 10;
+  oled_write_P(PSTR("WPM: "), false);
+  oled_write(wpm_str, false);
+  oled_write_ln_P(PSTR(" "), false);
+}
+
 
 void render_bootmagic_status(bool status) {
     /* Show Ctrl-Gui Swap options */
@@ -191,6 +203,7 @@ void oled_render_logo(void) {
 void oled_task_user(void) {
     if (is_master) {
         oled_render_layer_state();
+        oled_render_wpm();
         oled_render_keylog();
     } else {
         oled_render_logo();
@@ -208,7 +221,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
   switch (biton32(layer_state)) {
-    case _RAISE:
+    case _NUMPAD:
       for (int i = 0; i < 6; i++) {
         rgb_matrix_set_color(i, 25, 0, 0);
       }
