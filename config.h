@@ -28,13 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-// #define SSD1306OLED
 #undef USE_I2C
 #undef SSD1306OLED
 
 #define USE_SERIAL_PD2
 
-// #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 150
 #define RETRO_TAPPING
 #define IGNORE_MOD_TAP_INTERRUPT
@@ -51,9 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define RGBLIGHT_VAL_STEP 17
 #endif
 
-#define OLED_FONT_H "keyboards/crkbd/keymaps/soundmonster/glcdfont.c"
-// #define OLED_FONT_WIDTH 5
-// #define OLED_FONT_HEIGHT 7
+#define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
 
 #ifdef RGB_MATRIX_ENABLE
 #   define RGB_MATRIX_KEYPRESSES // reacts to keypresses
@@ -71,10 +67,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Disable the animations you don't want/need.  You will need to disable a good number of these    *
  * because they take up a lot of space.  Disable until you can successfully compile your firmware. */
-// #   define DISABLE_RGB_MATRIX_ALPHAS_MODS
+#   define DISABLE_RGB_MATRIX_ALPHAS_MODS
 #   define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
 #   define DISABLE_RGB_MATRIX_BREATHING
-// #   define DISABLE_RGB_MATRIX_BAND_SAT
+#   define DISABLE_RGB_MATRIX_BAND_SAT
 #   define DISABLE_RGB_MATRIX_BAND_VAL
 #   define DISABLE_RGB_MATRIX_BAND_PINWHEEL_SAT
 #   define DISABLE_RGB_MATRIX_BAND_PINWHEEL_VAL
@@ -85,16 +81,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #   define DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
 #   define DISABLE_RGB_MATRIX_CYCLE_OUT_IN
 #   define DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
-// #   define DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
+#   define DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
 #   define DISABLE_RGB_MATRIX_DUAL_BEACON
 #   define DISABLE_RGB_MATRIX_CYCLE_PINWHEEL
 #   define DISABLE_RGB_MATRIX_CYCLE_SPIRAL
 #   define DISABLE_RGB_MATRIX_RAINBOW_BEACON
 #   define DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
-// #   define DISABLE_RGB_MATRIX_RAINDROPS
+#   define DISABLE_RGB_MATRIX_RAINDROPS
 #   define DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
 // #   define DISABLE_RGB_MATRIX_TYPING_HEATMAP
-// #   define DISABLE_RGB_MATRIX_DIGITAL_RAIN
+#   define DISABLE_RGB_MATRIX_DIGITAL_RAIN
 #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE
 #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
 #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
@@ -104,7 +100,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
 #   define DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
 #   define DISABLE_RGB_MATRIX_SPLASH
-// #   define DISABLE_RGB_MATRIX_MULTISPLASH
+#   define DISABLE_RGB_MATRIX_MULTISPLASH
 #   define DISABLE_RGB_MATRIX_SOLID_SPLASH
 #   define DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif
