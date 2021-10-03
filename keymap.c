@@ -9,7 +9,6 @@ extern rgblight_config_t rgblight_config;
 extern uint8_t is_master;
 
 enum layers {
-  _DVORAK,
   _QWERTY,
   _LOWER,
   _NUMPAD,
@@ -17,8 +16,7 @@ enum layers {
 };
 
 enum custom_keycodes {
-  DVORAK = SAFE_RANGE,
-  QWERTY,
+  QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
   ADJUST,
@@ -26,19 +24,7 @@ enum custom_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_DVORAK] = LAYOUT(
-       //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            KC_TAB,  KC_DOT,   KC_COMM,  KC_SCLN,   KC_P,   KC_Y,                     KC_F,   KC_G,   KC_C,   KC_H,   KC_L,   KC_BSPC,
-       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT, KC_A,   KC_O,  KC_E,   KC_U,   KC_I,                             KC_D,   KC_R,   KC_T,   KC_N,   KC_S, KC_QUOT,
-       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LCTL, KC_SLSH,   KC_Q,  KC_J,   KC_K,   KC_X,                          KC_B,   KC_M,   KC_W, KC_V, KC_Z, KC_ENT,
-       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                       KC_LGUI, MO(3), KC_SPC,       KC_SPC, MO(2), KC_ALGR
-                                  //`--------------------------'  `--------------------------'
-
-  ),
-
+  
   [_QWERTY] = LAYOUT(
        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_TAB,  KC_Q,   KC_W,  KC_E,   KC_R,   KC_T,                            KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSPC,
@@ -47,7 +33,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LCTL, KC_Z,   KC_X,  KC_C,   KC_V,   KC_B,                            KC_N,   KC_M,   KC_COMM, KC_DOT, KC_SLSH, KC_ENT,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                       KC_LGUI, MO(3), KC_SPC,       KC_SPC, MO(2), KC_ALGR
+                                       KC_LGUI, MO(2), KC_SPC,       KC_SPC, MO(1), KC_ALGR
                                   //`--------------------------'  `--------------------------'
 
   ),
@@ -56,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC, LSFT(KC_1), LSFT(KC_2), LSFT(KC_3), LSFT(KC_4), LSFT(KC_5),      LSFT(KC_6), LSFT(KC_7), LSFT(KC_8), LSFT(KC_9), LSFT(KC_0), KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,   KC_NO,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      TO(1),   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
+      KC_LSFT,   KC_NO,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      KC_NO,   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,  KC_NO,   KC_LEFT,  KC_DOWN, KC_RGHT, KC_NO,                      KC_NO,   KC_NO,   KC_CIRC, KC_MINS,  KC_RO,    KC_NUBS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -72,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PDOT, KC_P1,    KC_P2,   KC_P3,    KC_P0,  KC_PENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LALT, TO(0), KC_SPC,         KC_SPC, TO(4), KC_ALGR
+                                          KC_ALGR, TO(0), KC_SPC,         KC_SPC, TO(3), KC_LALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -116,9 +102,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (biton32(layer_state)) {
-        case _DVORAK:
-            oled_write_ln_P(PSTR("Dvorak"), false);
-            break;
         case _QWERTY:
             oled_write_ln_P(PSTR("QWERTY"), false);
             break;
@@ -254,16 +237,6 @@ void rgb_matrix_indicators_user(void) {
       }
     break;
     case _QWERTY:
-      for (int i = 0; i < 6; i++) {
-        rgb_matrix_set_color(i, 0, 25, 0);
-      }
-      if(is_master){
-        rgb_matrix_set_color(17, 0, 25, 0);
-        rgb_matrix_set_color(18, 0, 25, 0);
-        rgb_matrix_set_color(23, 0, 25, 0);
-      }
-    break;
-    case _DVORAK:
       for (int i = 0; i < 6; i++) {
         rgb_matrix_set_color(i, 0, 0, 0);
       }
