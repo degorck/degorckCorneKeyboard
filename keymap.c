@@ -1,31 +1,31 @@
+/*
+Copyright 2019 @foostan
+Copyright 2020 Drashna Jaelre <@drashna>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include QMK_KEYBOARD_H
-
-extern keymap_config_t keymap_config;
-
-#ifdef RGBLIGHT_ENABLE
-extern rgblight_config_t rgblight_config;
-#endif
-
-extern uint8_t is_master;
-
-enum layers {
-  _QWERTY,
-  _LOWER,
-  _NUMPAD,
-  _ADJUST
-};
+#include <stdio.h>
+#include <sendstring_spanish.h>
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
-  RGBRST
+  PSWRD = SAFE_RANGE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  
-  [_QWERTY] = LAYOUT(
+  [0] = LAYOUT_split_3x6_3(
        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_TAB,  KC_Q,   KC_W,  KC_E,   KC_R,   KC_T,                            KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSPC,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -38,11 +38,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   ),
 
-  [_LOWER] = LAYOUT(
+  [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC, LSFT(KC_1), LSFT(KC_2), LSFT(KC_3), LSFT(KC_4), LSFT(KC_5),      LSFT(KC_6), LSFT(KC_7), LSFT(KC_8), LSFT(KC_9), LSFT(KC_0), KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,   KC_NO,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      KC_NO,   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
+      KC_LSFT,   PSWRD,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      KC_NO,   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,  KC_NO,   KC_LEFT,  KC_DOWN, KC_RGHT, KC_NO,                      KC_NO,   KC_NO,   KC_CIRC, KC_MINS,  KC_RO,    KC_NUBS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
    ),
 
-  [_NUMPAD] = LAYOUT(
+  [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NLCK,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -62,56 +62,48 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [_ADJUST] = LAYOUT(
+  [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------.                ,-----------------------------------------.
       KC_F1, KC_F2, KC_F3, KC_F4, KC_F5,  KC_F6,                KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
     RGB_TOG,RGB_HUI,RGB_SAI,RGB_VAI,RGB_SPI,KC_NO,               KC_NO,KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-    RGB_MOD,RGB_HUD,RGB_SAD,RGB_VAD,RGB_SPD,KC_NO,               KC_NO , KC_NO, KC_NO, RGB_RMOD, RGBRST, RESET,
+    RGB_MOD,RGB_HUD,RGB_SAD,RGB_VAD,RGB_SPD,KC_NO,               KC_NO , KC_NO, KC_NO, RGB_RMOD, KC_NO, RESET,
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
                             KC_LGUI, TO(0), KC_SPC,      KC_SPC, KC_TRNS, KC_ALGR
                               //`--------------------'  `--------------------'
   )
 };
 
-int RGB_current_mode;
-
-void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
-  if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
-    layer_on(layer3);
-  } else {
-    layer_off(layer3);
-  }
-}
-
-void matrix_init_user(void) {
-    #ifdef RGBLIGHT_ENABLE
-      RGB_current_mode = rgblight_config.mode;
-    #endif
-}
-
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_master) {
+  if (!is_keyboard_master()) {
     return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
   }
   return rotation;
 }
 
+#define L_BASE 0
+#define L_LOWER 2
+#define L_RAISE 4
+#define L_ADJUST 8
+
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
-    switch (biton32(layer_state)) {
-        case _QWERTY:
-            oled_write_ln_P(PSTR("QWERTY"), false);
+    switch (layer_state) {
+        case L_BASE:
+            oled_write_ln_P(PSTR("Default"), false);
             break;
-        case _LOWER:
+        case L_LOWER:
             oled_write_ln_P(PSTR("Lower"), false);
             break;
-        case _NUMPAD:
-            oled_write_ln_P(PSTR("Numpad"), false);
+        case L_RAISE:
+            oled_write_ln_P(PSTR("Raise"), false);
             break;
-        case _ADJUST:
+        case L_ADJUST:
+        case L_ADJUST|L_LOWER:
+        case L_ADJUST|L_RAISE:
+        case L_ADJUST|L_LOWER|L_RAISE:
             oled_write_ln_P(PSTR("Adjust"), false);
             break;
     }
@@ -146,19 +138,6 @@ void oled_render_keylog(void) {
     oled_write(keylog_str, false);
 }
 
-void oled_render_wpm(void) {
-  uint8_t n = get_current_wpm();
-  char wpm_str[4];
-  wpm_str[3] = '\0';
-  wpm_str[2] = '0' + n % 10;
-  wpm_str[1] = '0' + (n /= 10) % 10;
-  wpm_str[0] = '0' + n / 10;
-  oled_write_P(PSTR("WPM: "), false);
-  oled_write(wpm_str, false);
-  oled_write_ln_P(PSTR(" "), false);
-}
-
-
 void render_bootmagic_status(bool status) {
     /* Show Ctrl-Gui Swap options */
     static const char PROGMEM logo[][2][3] = {
@@ -184,9 +163,8 @@ void oled_render_logo(void) {
 }
 
 void oled_task_user(void) {
-    if (is_master) {
+    if (is_keyboard_master()) {
         oled_render_layer_state();
-        oled_render_wpm();
         oled_render_keylog();
     } else {
         oled_render_logo();
@@ -197,50 +175,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     set_keylog(keycode, record);
   }
+  switch (keycode) {
+  case PSWRD:
+    if (record->event.pressed) {
+        // pass: 9h1mCxdQbA&cnPy#^UTY
+            SEND_STRING("SHsbCS3JS482leWL7qAp");
+            //Get "&"
+            //SEND_STRING(SS_LSFT("6"));
+            //SEND_STRING("cnPy");
+            //Get "#"
+            //SEND_STRING(SS_LSFT("3"));
+            //Get "@"
+            //SEND_STRING(SS_RALT("q"));       
+            //tap_code(KC_LSFT(KC_2));
+        } 
+        return false;  
+    }
   return true;
 }
-#endif // OLED_DRIVER_ENABLE
-
-void rgb_matrix_indicators_user(void) {
-  #ifdef RGB_MATRIX_ENABLE
-  switch (biton32(layer_state)) {
-    case _NUMPAD:
-      for (int i = 0; i < 6; i++) {
-        rgb_matrix_set_color(i, 25, 0, 0);
-      }
-      if(!is_master){
-        for (int i = 0; i < 6; i++) {
-          rgb_matrix_set_color(i, 25, 0, 0);
-        }
-        for (int i =10; i < 13; i++) {
-          rgb_matrix_set_color(i, 25, 0, 0);
-        }
-        for (int i =15; i < 21; i++) {
-          rgb_matrix_set_color(i, 25, 0, 0);
-        }
-      }
-    break;
-    case _LOWER:
-      for (int i = 0; i < 6; i++) {
-        rgb_matrix_set_color(i, 0, 0, 25);
-      }
-      if(is_master){
-        rgb_matrix_set_color(12, 0, 0, 25);
-        rgb_matrix_set_color(15, 0, 0, 25);
-        rgb_matrix_set_color(16, 0, 0, 25);
-        rgb_matrix_set_color(20, 0, 0, 25);
-      }
-    break;
-    case _ADJUST:
-      for (int i = 0; i < 6; i++) {
-        rgb_matrix_set_color(i, 25, 25, 25);
-      }
-    break;
-    case _QWERTY:
-      for (int i = 0; i < 6; i++) {
-        rgb_matrix_set_color(i, 0, 0, 0);
-      }
-    break;
-  }
-  #endif
-}
+#endif // OLED_ENABLE
