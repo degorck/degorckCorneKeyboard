@@ -31,18 +31,38 @@ extern rgblight_config_t rgblight_config;
 #ifndef GLOBANT_PASSWORD
     #define GLOBANT_PASSWORD "globantPass"
 #endif
+#ifndef GLOBANT_EMAIL
+    #define GLOBANT_EMAIL "globantMail"
+#endif
 #ifndef X_PASSWORD
     #define X_PASSWORD "xPass"
 #endif
+#ifndef X_USER
+    #define X_USER "xUser"
+#endif
 #ifndef Z_PASSWORD
-    #define Z_PASSWORD "yPass"
+    #define Z_PASSWORD "ZPass"
+#endif
+#ifndef Z_USER
+    #define Z_USER "zUser"
+#endif
+#ifndef PERSONAL_EMAIL
+    #define PERSONAL_EMAIL "pEmail"
+#endif
+#ifndef PERSONAL_PASSWORD
+    #define PERSONAL_PASSWORD "PPass"
 #endif
 
 
 enum custom_keycodes {
   GLBNT_PSWRD = SAFE_RANGE,
+  GLBNT_USER,
   X_PSWRD,
-  Z_PSWRD
+  X_USR,
+  Z_USR,
+  Z_PSWRD,
+  PR_USR,
+  PR_PSWRD
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -52,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,   KC_A,   KC_O,  KC_E,   KC_U,   KC_I,                            KC_D,   KC_H,   KC_T,   KC_N,   KC_S, KC_SCLN,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LCTL, KC_NUBS,   KC_Q,  KC_J,   KC_K,   KC_X,                            KC_B,   KC_M,   KC_LBRC, KC_V, KC_Z, KC_ENT,
+            KC_LCTL, KC_SLSH,   KC_Q,  KC_J,   KC_K,   KC_X,                            KC_B,   KC_M,   KC_LBRC, KC_V, KC_Z, KC_ENT,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
                                        KC_LGUI, MO(3), KC_SPC,       KC_SPC, MO(2), KC_ALGR
                                   //`--------------------------'  `--------------------------'
@@ -86,11 +106,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      GLBNT_PSWRD, TO(1),  TO(0),   KC_NO,   KC_NO,  KC_NUM,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
+      TO(0), GLBNT_PSWRD,  GLBNT_USER,   KC_NO,   KC_NO,  KC_NUM,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      Z_PSWRD,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PPLS, KC_P4,    KC_P5,   KC_P6,   KC_PAST, KC_NO,
+      TO(1),   Z_PSWRD,    Z_USR,   PR_PSWRD,   PR_USR,   KC_NO,                      KC_PPLS, KC_P4,    KC_P5,   KC_P6,   KC_PAST, KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      X_PSWRD,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PDOT, KC_P1,    KC_P2,   KC_P3,    KC_P0,  KC_PENT,
+      KC_NO,   X_PSWRD,    X_USR,   KC_NO,   KC_NO,   KC_NO,                      KC_PDOT, KC_P1,    KC_P2,   KC_P3,    KC_P0,  KC_PENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_ALGR, TO(0), KC_SPC,         KC_SPC, TO(4), KC_LALT
                                       //`--------------------------'  `--------------------------'
@@ -236,14 +256,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             //tap_code(KC_LSFT(KC_2));
         } 
         return false;
+    case GLBNT_USER:
+        if (record->event.pressed) {
+            SEND_STRING(GLOBANT_EMAIL);
+        } 
+        return false;
     case X_PSWRD:
         if (record->event.pressed) {
             SEND_STRING(X_PASSWORD);
         } 
         return false;
+    case X_USR:
+        if (record->event.pressed) {
+            SEND_STRING(X_USER);
+        } 
+        return false;
     case Z_PSWRD:
         if (record->event.pressed) {
             SEND_STRING(Z_PASSWORD);
+        } 
+        return false;
+    case Z_USR:
+        if (record->event.pressed) {
+            SEND_STRING(Z_USER);
+        } 
+        return false;
+    case PR_PSWRD:
+        if (record->event.pressed) {
+            SEND_STRING(PERSONAL_PASSWORD);
+        } 
+        return false;
+    case PR_USR:
+        if (record->event.pressed) {
+            SEND_STRING(PERSONAL_EMAIL);
         } 
         return false;
          

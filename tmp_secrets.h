@@ -1,3 +1,8 @@
 #define GLOBANT_PASSWORD "GlobantPass"
+#define GLOBANT_EMAIL "globant@globant.com"
 #define X_PASSWORD "XPass"
+#define X_USER "XUser"
 #define Z_PASSWORD "ZPass"
+#define Z_USER "ZUser"
+#define PERSONAL_EMAIL "personal@email.com"
+#define PERSONAL_PASSWORD "PersonalPass"
