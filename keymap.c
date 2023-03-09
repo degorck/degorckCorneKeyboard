@@ -19,9 +19,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 #include <sendstring_spanish.h>
+#if __has_include("secrets.h")
+# include "secrets.h"
+#endif
+#ifndef GLOBANT_PASSWORD
+  #define GLOBANT_PASSWORD "globantPass"
+#endif
+#ifndef X_PASSWORD
+  #define X_PASSWORD "xPass"
+#endif
+#ifndef Z_PASSWORD
+  #define Z_PASSWORD "yPass"
+#endif
+
 
 enum custom_keycodes {
-  PSWRD = SAFE_RANGE
+  GLBNT_PSWRD = SAFE_RANGE,
+  X_PSWRD,
+  Z_PSWRD
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -42,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC, LSFT(KC_1), LSFT(KC_2), LSFT(KC_3), LSFT(KC_4), LSFT(KC_5),      LSFT(KC_6), LSFT(KC_7), LSFT(KC_8), LSFT(KC_9), LSFT(KC_0), KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,   PSWRD,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      KC_NO,   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
+      KC_LSFT,   KC_NO,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      KC_NO,   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,  KC_NO,   KC_LEFT,  KC_DOWN, KC_RGHT, KC_NO,                      KC_NO,   KC_NO,   KC_CIRC, KC_MINS,  KC_RO,    KC_NUBS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -52,11 +67,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NLCK,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
+       GLBNT_PSWRD,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NLCK,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PPLS, KC_P4,    KC_P5,   KC_P6,   KC_PAST, KC_NO,
+      Z_PSWRD,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PPLS, KC_P4,    KC_P5,   KC_P6,   KC_PAST, KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PDOT, KC_P1,    KC_P2,   KC_P3,    KC_P0,  KC_PENT,
+      X_PSWRD,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PDOT, KC_P1,    KC_P2,   KC_P3,    KC_P0,  KC_PENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_ALGR, TO(0), KC_SPC,         KC_SPC, TO(3), KC_LALT
                                       //`--------------------------'  `--------------------------'
@@ -176,10 +191,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     set_keylog(keycode, record);
   }
   switch (keycode) {
-  case PSWRD:
+  case GLBNT_PSWRD:
     if (record->event.pressed) {
         // pass: 9h1mCxdQbA&cnPy#^UTY
-            SEND_STRING("SHsbCS3JS482leWL7qAp");
+            SEND_STRING(GLOBANT_PASSWORD);
             //Get "&"
             //SEND_STRING(SS_LSFT("6"));
             //SEND_STRING("cnPy");
@@ -189,7 +204,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             //SEND_STRING(SS_RALT("q"));       
             //tap_code(KC_LSFT(KC_2));
         } 
-        return false;  
+        return false;
+    case X_PSWRD:
+        if (record->event.pressed) {
+        // pass: 9h1mCxdQbA&cnPy#^UTY
+            SEND_STRING(X_PASSWORD);
+            //Get "&"
+            //SEND_STRING(SS_LSFT("6"));
+            //SEND_STRING("cnPy");
+            //Get "#"
+            //SEND_STRING(SS_LSFT("3"));
+            //Get "@"
+            //SEND_STRING(SS_RALT("q"));       
+            //tap_code(KC_LSFT(KC_2));
+        } 
+        return false;
+    case Z_PSWRD:
+        if (record->event.pressed) {
+        // pass: 9h1mCxdQbA&cnPy#^UTY
+            SEND_STRING(Z_PASSWORD);
+            //Get "&"
+            //SEND_STRING(SS_LSFT("6"));
+            //SEND_STRING("cnPy");
+            //Get "#"
+            //SEND_STRING(SS_LSFT("3"));
+            //Get "@"
+            //SEND_STRING(SS_RALT("q"));       
+            //tap_code(KC_LSFT(KC_2));
+        } 
+        return false;
+         
     }
   return true;
 }
