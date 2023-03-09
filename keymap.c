@@ -48,7 +48,7 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            KC_TAB,  KC_DOT,   KC_COMM,  KC_W,   KC_P,   KC_Y,                            KC_F,   KC_G,   KC_C,   KC_H,   KC_L,   KC_BSPC,
+            KC_TAB,  KC_DOT,   KC_COMM,  KC_W,   KC_P,   KC_Y,                            KC_F,   KC_G,   KC_C,   KC_R,   KC_L,   KC_BSPC,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,   KC_A,   KC_O,  KC_E,   KC_U,   KC_I,                            KC_D,   KC_H,   KC_T,   KC_N,   KC_S, KC_SCLN,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
