@@ -19,6 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 #include <sendstring_spanish.h>
+
+#ifdef RGBLIGHT_ENABLE
+//Following line allows macro to read current RGB settings
+extern rgblight_config_t rgblight_config;
+#endif
+
 #if __has_include("secrets.h")
     #include "secrets.h"
 #endif
@@ -89,6 +95,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                               //`--------------------'  `--------------------'
   )
 };
+
+int RGB_current_mode;
+
+void matrix_init_user(void) {
+    #ifdef RGBLIGHT_ENABLE
+      RGB_current_mode = rgblight_config.mode;
+    #endif
+}
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -194,7 +208,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
   case GLBNT_PSWRD:
     if (record->event.pressed) {
-        // pass: 9h1mCxdQbA&cnPy#^UTY
             SEND_STRING(GLOBANT_PASSWORD);
             //Get "&"
             //SEND_STRING(SS_LSFT("6"));
@@ -208,30 +221,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     case X_PSWRD:
         if (record->event.pressed) {
-        // pass: 9h1mCxdQbA&cnPy#^UTY
             SEND_STRING(X_PASSWORD);
-            //Get "&"
-            //SEND_STRING(SS_LSFT("6"));
-            //SEND_STRING("cnPy");
-            //Get "#"
-            //SEND_STRING(SS_LSFT("3"));
-            //Get "@"
-            //SEND_STRING(SS_RALT("q"));       
-            //tap_code(KC_LSFT(KC_2));
         } 
         return false;
     case Z_PSWRD:
         if (record->event.pressed) {
-        // pass: 9h1mCxdQbA&cnPy#^UTY
             SEND_STRING(Z_PASSWORD);
-            //Get "&"
-            //SEND_STRING(SS_LSFT("6"));
-            //SEND_STRING("cnPy");
-            //Get "#"
-            //SEND_STRING(SS_LSFT("3"));
-            //Get "@"
-            //SEND_STRING(SS_RALT("q"));       
-            //tap_code(KC_LSFT(KC_2));
         } 
         return false;
          
@@ -239,3 +234,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 #endif // OLED_ENABLE
+
+#ifdef RGB_MATRIX_ENABLE
+
+void suspend_power_down_keymap(void) {
+    rgb_matrix_set_suspend_state(true);
+}
+
+void suspend_wakeup_init_keymap(void) {
+    rgb_matrix_set_suspend_state(false);
+}
+
+#endif
