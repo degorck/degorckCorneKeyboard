@@ -20,16 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <sendstring_spanish.h>
 #if __has_include("secrets.h")
-# include "secrets.h"
+    #include "secrets.h"
 #endif
 #ifndef GLOBANT_PASSWORD
-  #define GLOBANT_PASSWORD "globantPass"
+    #define GLOBANT_PASSWORD "globantPass"
 #endif
 #ifndef X_PASSWORD
-  #define X_PASSWORD "xPass"
+    #define X_PASSWORD "xPass"
 #endif
 #ifndef Z_PASSWORD
-  #define Z_PASSWORD "yPass"
+    #define Z_PASSWORD "yPass"
 #endif
 
 
@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,   KC_NO,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      KC_NO,   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,  KC_NO,   KC_LEFT,  KC_DOWN, KC_RGHT, KC_NO,                      KC_NO,   KC_NO,   KC_CIRC, KC_MINS,  KC_RO,    KC_NUBS,
+      KC_LCTL,  KC_NO,   KC_LEFT,  KC_DOWN, KC_RGHT, KC_NO,                      KC_NO,   KC_NO,   KC_CIRC, KC_MINS,  KC_NO,    KC_NUBS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, KC_TRNS, KC_SPC,      KC_SPC, KC_NO, KC_ALGR
                                       //`--------------------------'  `--------------------------'
@@ -67,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       GLBNT_PSWRD,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NLCK,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
+       GLBNT_PSWRD,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NUM,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       Z_PSWRD,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PPLS, KC_P4,    KC_P5,   KC_P6,   KC_PAST, KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
     RGB_TOG,RGB_HUI,RGB_SAI,RGB_VAI,RGB_SPI,KC_NO,               KC_NO,KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-    RGB_MOD,RGB_HUD,RGB_SAD,RGB_VAD,RGB_SPD,KC_NO,               KC_NO , KC_NO, KC_NO, RGB_RMOD, KC_NO, RESET,
+    RGB_MOD,RGB_HUD,RGB_SAD,RGB_VAD,RGB_SPD,KC_NO,               KC_NO , KC_NO, KC_NO, RGB_RMOD, KC_NO, KC_NO,
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
                             KC_LGUI, TO(0), KC_SPC,      KC_SPC, KC_TRNS, KC_ALGR
                               //`--------------------'  `--------------------'
@@ -177,13 +177,14 @@ void oled_render_logo(void) {
     oled_write_P(crkbd_logo, false);
 }
 
-void oled_task_user(void) {
+bool oled_task_user(void) {
     if (is_keyboard_master()) {
         oled_render_layer_state();
         oled_render_keylog();
     } else {
         oled_render_logo();
     }
+    return false;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
