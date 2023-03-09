@@ -48,20 +48,33 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+            KC_TAB,  KC_DOT,   KC_COMM,  KC_W,   KC_P,   KC_Y,                            KC_F,   KC_G,   KC_C,   KC_H,   KC_L,   KC_BSPC,
+       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            KC_LSFT,   KC_A,   KC_O,  KC_E,   KC_U,   KC_I,                            KC_D,   KC_H,   KC_T,   KC_N,   KC_S, KC_SCLN,
+       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            KC_LCTL, KC_NUBS,   KC_Q,  KC_J,   KC_K,   KC_X,                            KC_B,   KC_M,   KC_LBRC, KC_V, KC_Z, KC_ENT,
+       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+                                       KC_LGUI, MO(3), KC_SPC,       KC_SPC, MO(2), KC_ALGR
+                                  //`--------------------------'  `--------------------------'
+
+  ),
+
+  [1] = LAYOUT_split_3x6_3(
+       //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_TAB,  KC_Q,   KC_W,  KC_E,   KC_R,   KC_T,                            KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSPC,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT, KC_A,   KC_S,  KC_D,   KC_F,   KC_G,                            KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN, KC_QUOT,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LCTL, KC_Z,   KC_X,  KC_C,   KC_V,   KC_B,                            KC_N,   KC_M,   KC_COMM, KC_DOT, KC_SLSH, KC_ENT,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                       KC_LGUI, MO(2), KC_SPC,       KC_SPC, MO(1), KC_ALGR
+                                       KC_LGUI, MO(3), KC_SPC,       KC_SPC, MO(2), KC_ALGR
                                   //`--------------------------'  `--------------------------'
 
   ),
-
-  [1] = LAYOUT_split_3x6_3(
+  
+  [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC, LSFT(KC_1), LSFT(KC_2), LSFT(KC_3), LSFT(KC_4), LSFT(KC_5),      LSFT(KC_6), LSFT(KC_7), LSFT(KC_8), LSFT(KC_9), LSFT(KC_0), KC_DEL,
+       KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,   KC_5,                       KC_6,     KC_7,    KC_8,     KC_9,     KC_0,   KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,   KC_NO,   KC_NO,   KC_UP,   KC_NO,  KC_NO,                      KC_NO,   KC_GRV,  KC_EQL,  KC_QUOT,  KC_NUHS,  KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -71,19 +84,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
    ),
 
-  [2] = LAYOUT_split_3x6_3(
+  [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       GLBNT_PSWRD,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NUM,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
+      GLBNT_PSWRD, TO(1),  TO(0),   KC_NO,   KC_NO,  KC_NUM,                      KC_PMNS,  KC_P7,   KC_P8,  KC_P9,   KC_PSLS,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       Z_PSWRD,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PPLS, KC_P4,    KC_P5,   KC_P6,   KC_PAST, KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       X_PSWRD,   KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_PDOT, KC_P1,    KC_P2,   KC_P3,    KC_P0,  KC_PENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_ALGR, TO(0), KC_SPC,         KC_SPC, TO(3), KC_LALT
+                                          KC_ALGR, TO(0), KC_SPC,         KC_SPC, TO(4), KC_LALT
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [3] = LAYOUT_split_3x6_3(
+  [4] = LAYOUT_split_3x6_3(
   //,-----------------------------------------.                ,-----------------------------------------.
       KC_F1, KC_F2, KC_F3, KC_F4, KC_F5,  KC_F6,                KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
@@ -113,15 +126,19 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 #define L_BASE 0
-#define L_LOWER 2
-#define L_RAISE 4
-#define L_ADJUST 8
+#define L_QWERTY 2
+#define L_LOWER 4
+#define L_RAISE 8
+#define L_ADJUST 16
 
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
         case L_BASE:
-            oled_write_ln_P(PSTR("Default"), false);
+            oled_write_ln_P(PSTR("Dvorak"), false);
+            break;
+        case L_QWERTY:
+            oled_write_ln_P(PSTR("Qwerty"), false);
             break;
         case L_LOWER:
             oled_write_ln_P(PSTR("Lower"), false);
