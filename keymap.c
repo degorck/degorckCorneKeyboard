@@ -34,6 +34,9 @@ extern rgblight_config_t rgblight_config;
 #ifndef GLOBANT_EMAIL
     #define GLOBANT_EMAIL "globantMail"
 #endif
+#ifndef GLOBANT_EMAIL_END
+    #define GLOBANT_EMAIL_END "globantMailEnd"
+#endif
 #ifndef X_PASSWORD
     #define X_PASSWORD "xPass"
 #endif
@@ -48,6 +51,9 @@ extern rgblight_config_t rgblight_config;
 #endif
 #ifndef PERSONAL_EMAIL
     #define PERSONAL_EMAIL "pEmail"
+#endif
+#ifndef PERSONAL_EMAIL_END
+    #define PERSONAL_EMAIL_END "PMailEnd"
 #endif
 #ifndef PERSONAL_PASSWORD
     #define PERSONAL_PASSWORD "PPass"
@@ -68,11 +74,11 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            KC_TAB,  KC_DOT,   KC_COMM,  KC_W,   KC_P,   KC_Y,                            KC_F,   KC_G,   KC_C,   KC_R,   KC_L,   KC_BSPC,
+            KC_TAB,  KC_DOT,   KC_COMM,  KC_SCLN,   KC_P,   KC_Y,                            KC_F,   KC_G,   KC_C,   KC_R,   KC_L,   KC_BSPC,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT,   KC_A,   KC_O,  KC_E,   KC_U,   KC_I,                            KC_D,   KC_H,   KC_T,   KC_N,   KC_S, KC_SCLN,
+            KC_LSFT,   KC_A,   KC_O,  KC_E,   KC_U,   KC_I,                            KC_D,   KC_H,   KC_T,   KC_N,   KC_S, KC_LBRC,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LCTL, KC_SLSH,   KC_Q,  KC_J,   KC_K,   KC_X,                            KC_B,   KC_M,   KC_LBRC, KC_V, KC_Z, KC_ENT,
+            KC_LCTL, KC_SLSH,   KC_Q,  KC_J,   KC_K,   KC_X,                            KC_B,   KC_M,   KC_W, KC_V, KC_Z, KC_ENT,
        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
                                        KC_LGUI, MO(3), KC_SPC,       KC_SPC, MO(2), KC_ALGR
                                   //`--------------------------'  `--------------------------'
@@ -259,6 +265,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case GLBNT_USER:
         if (record->event.pressed) {
             SEND_STRING(GLOBANT_EMAIL);
+            SEND_STRING(SS_RALT("q"));
+            SEND_STRING(GLOBANT_EMAIL_END);
         } 
         return false;
     case X_PSWRD:
@@ -289,6 +297,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case PR_USR:
         if (record->event.pressed) {
             SEND_STRING(PERSONAL_EMAIL);
+            SEND_STRING(SS_RALT("q"));
+            SEND_STRING(PERSONAL_EMAIL_END);
         } 
         return false;
          
