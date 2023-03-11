@@ -151,7 +151,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   return rotation;
 }
 
-#define L_BASE 0
+#define L_DVORAK 0
 #define L_QWERTY 2
 #define L_LOWER 4
 #define L_RAISE 8
@@ -159,24 +159,48 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
+    uint8_t n = layer_state;
+    char layer_str[4];
+    layer_str[3] = '\0';
+    layer_str[2] = '0' + n % 10;
+    layer_str[1] = '0' + (n /= 10) % 10;
+    layer_str[0] = '0' + n / 10; 
     switch (layer_state) {
-        case L_BASE:
-            oled_write_ln_P(PSTR("Dvorak"), false);
+        case L_DVORAK:
+        case 1:
+            oled_write_P(PSTR("Dvorak id="), false);
+            oled_write(layer_str, false);
+            oled_write_ln_P(PSTR(""), false);
             break;
         case L_QWERTY:
-            oled_write_ln_P(PSTR("Qwerty"), false);
+            oled_write_P(PSTR("Qwerty id="), false);
+            oled_write(layer_str, false);
+            oled_write_ln_P(PSTR(""), false);
             break;
         case L_LOWER:
-            oled_write_ln_P(PSTR("Lower"), false);
-            break;
+        case 5:
+        case 6:
+            oled_write_P(PSTR("Lower id="), false);
+            oled_write(layer_str, false);
+            oled_write_ln_P(PSTR(""), false);
+            break;        
         case L_RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
+        case 9:
+        case 10:
+            oled_write_P(PSTR("Raise id="), false);
+            oled_write(layer_str, false);
+            oled_write_ln_P(PSTR(""), false);
             break;
         case L_ADJUST:
         case L_ADJUST|L_LOWER:
         case L_ADJUST|L_RAISE:
         case L_ADJUST|L_LOWER|L_RAISE:
-            oled_write_ln_P(PSTR("Adjust"), false);
+            oled_write_P(PSTR("Adjust id="), false);
+            oled_write(layer_str, false);
+            oled_write_ln_P(PSTR(""), false);
+            break;
+        default:
+            oled_write_ln_P(layer_str, false);
             break;
     }
 }
