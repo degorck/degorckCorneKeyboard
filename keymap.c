@@ -205,6 +205,18 @@ void oled_render_layer_state(void) {
     }
 }
 
+void oled_render_wpm(void) {
+  uint8_t n = get_current_wpm();
+  char wpm_str[4];
+  wpm_str[3] = '\0';
+  wpm_str[2] = '0' + n % 10;
+  wpm_str[1] = '0' + (n /= 10) % 10;
+  wpm_str[0] = '0' + n / 10;
+  oled_write_P(PSTR("WPM: "), false);
+  oled_write(wpm_str, false);
+  oled_write_ln_P(PSTR(" "), false);
+}
+
 
 char keylog_str[24] = {};
 
@@ -261,6 +273,7 @@ void oled_render_logo(void) {
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
         oled_render_layer_state();
+        oled_render_wpm();
         oled_render_keylog();
     } else {
         oled_render_logo();
